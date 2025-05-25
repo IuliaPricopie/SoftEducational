@@ -5,13 +5,13 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
@@ -32,15 +32,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Label label1 = new Label("Bun venit în lumea matematicii!");
-        label1.setFont(Font.font("Arial Black",35));
-        label1.setWrapText(true);
-        label1.setMaxWidth(640);
-
-        VBox root = new VBox();
-        VBox.setMargin(label1,new Insets(0,0,0,150));
-        root.getChildren().add(label1);
-
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
             latime = newVal.doubleValue();
             System.out.println("Lățime actualizată: " + latime + " px");
@@ -51,12 +42,87 @@ public class Main extends Application {
             System.out.println("Înălțime actualizată: " + inaltime + " px");
         });
 
-        Image image1 = new Image("file:/C:/Users/iulica/Desktop/homeimage.jpeg");
-        BackgroundSize backgroundSize = new BackgroundSize(100,100,true,true,true,true);
-        BackgroundImage backgroundImage = new BackgroundImage(image1, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-        root.setBackground(new Background(backgroundImage));
+        //main page
+        VBox layoutWrapper = new VBox();
+        layoutWrapper.setAlignment(Pos.TOP_CENTER);
+        VBox header = new VBox();
+        header.setAlignment(Pos.TOP_CENTER);
 
-        Scene scene = new Scene(root, 900, 650);
+        WebView webViewMain = new WebView();
+        WebEngine webEngineMain = webViewMain.getEngine();
+        webViewMain.setMinWidth(900);
+        webViewMain.setMinHeight(850);
+        webEngineMain.loadContent("""
+            <html>
+            <head>
+                <style>
+                    body {
+                        font-family: 'Arial Black', sans-serif;
+                        text-align: center;
+                        background-color: white;
+                        margin: 0;
+                        padding: 20px;
+                    }
+                    img {
+                        width: 950px;
+                        height: 650px;
+                        object-fit: cover;
+                    }
+                </style>
+            </head>
+            <body>
+                <img src="file:/C:/Users/iulica/Desktop/homeimage.jpeg" alt="Img" style="max-width: 100%; height: auto;">
+            </body>
+            </html>""");
+
+        Label label1 = new Label("Bun venit în lumea matematicii!");
+        label1.setFont(Font.font("Arial Black",35));
+        label1.setWrapText(true);
+        label1.setMaxWidth(640);
+        VBox.setMargin(label1,new Insets(-850,0,0,0));
+
+        header.getChildren().addAll(webViewMain, label1);
+        //main page
+
+        //butoane pagina principala
+        HBox row1 = new HBox(40);
+        HBox row2 = new HBox(40);
+        HBox row3 = new HBox(40);
+        row1.setAlignment(Pos.CENTER);
+        row2.setAlignment(Pos.CENTER);
+        row3.setAlignment(Pos.CENTER);
+
+        Button button1=Buttons.createMainButton("  1) Ce este un \nnumăr complex?");
+        VBox.setMargin(button1,new Insets(250,500,0,100));
+
+        Button button2=Buttons.createMainButton("2) Exemple rezolvate");
+        VBox.setMargin(button2,new Insets(-60,150,0,500));
+
+        Button button3 =Buttons.createMainButton("  3) Exerciții \n și probleme");
+        VBox.setMargin(button3,new Insets(50,500,0,100));
+
+        Button button4 =Buttons.createMainButton("4) Reprezentare \n        grafică");
+        VBox.setMargin(button4,new Insets(-60,150,0,500));
+
+        Button button5 =Buttons.createMainButton("   5) Aplicații \n în geometrie");
+        VBox.setMargin(button5,new Insets(50,500,0,100));
+
+        Button button6 =Buttons.createMainButton("6) Testează-ți \n  cunoștințele");
+        VBox.setMargin(button6,new Insets(-60,150,0,500));
+
+        row1.getChildren().addAll(button1, button2);
+        row2.getChildren().addAll(button3, button4);
+        row3.getChildren().addAll(button5, button6);
+
+        VBox.setMargin(row1, new Insets(230, 0, 0, 0));
+        VBox.setMargin(row2, new Insets(50, 0, 0, 0));
+        VBox.setMargin(row3, new Insets(50, 0, 0, 0));
+
+        layoutWrapper.getChildren().addAll(header, row1, row2, row3);
+        StackPane root = new StackPane(layoutWrapper);
+        root.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(root, 900, 700);
+        //butoane pagina principala
 
         //Def (introducere)
         VBox root2 = new VBox();
@@ -72,6 +138,16 @@ public class Main extends Application {
         Button homeButton=Buttons.createHomeButton();
         VBox.setMargin(homeButton,new Insets(-630,0,0,0));
         root2.getChildren().add(homeButton);
+        homeButton.setOnAction(e -> primaryStage.setScene(scene));
+
+        button1.setOnAction(e -> {
+            double width = primaryStage.getWidth();
+            double height = primaryStage.getHeight();
+
+            primaryStage.setScene(sceneInfo);
+            primaryStage.setWidth(width);
+            primaryStage.setHeight(height);
+        });
         //Def (introducere)/
 
         //repr geo
@@ -231,89 +307,6 @@ public class Main extends Application {
         homeButtonDeltaNeg.setOnAction(e -> primaryStage.setScene(scene));
         //delta neg
 
-        //butoane pagina principala
-        Button button1=new Button("  1) Ce este un \nnumăr complex?");
-        button1.setPrefSize(100,60);
-        button1.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        VBox.setMargin(button1,new Insets(250,500,0,100));
-        button1.setFont(Font.font("Arial", 17));
-        button1.setWrapText(true);
-        button1.setMaxWidth(640);
-        root.getChildren().add(button1);
-        button1.setOnMouseExited(e -> button1.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button1.setOnMouseEntered(e -> button1.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-
-        button1.setOnAction(e -> {
-            double width = primaryStage.getWidth();
-            double height = primaryStage.getHeight();
-
-            primaryStage.setScene(sceneInfo);
-            primaryStage.setWidth(width);
-            primaryStage.setHeight(height);
-        });
-        homeButton.setOnAction(e -> primaryStage.setScene(scene));
-
-        Button button2=new Button("2) Exemple rezolvate");
-        button2.setPrefSize(100,60);
-        button2.setMaxWidth(300);
-        button2.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        button2.setFont(Font.font("Arial", 17));
-        button2.setWrapText(true);
-        button2.setMaxWidth(640);
-        VBox.setMargin(button2,new Insets(-60,150,0,500));
-        root.getChildren().add(button2);
-        button2.setOnMouseExited(e -> button2.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button2.setOnMouseEntered(e -> button2.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-
-        Button button3 =new Button("  3) Exerciții \n și probleme");
-        button3.setPrefSize(100,60);
-        button3.setMaxWidth(300);
-        button3.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        button3.setFont(Font.font("Arial", 17));
-        button3.setWrapText(true);
-        button3.setMaxWidth(640);
-        VBox.setMargin(button3,new Insets(50,500,0,100));
-        root.getChildren().add(button3);
-        button3.setOnMouseExited(e -> button3.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button3.setOnMouseEntered(e -> button3.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-
-        Button button4 =new Button("4) Reprezentare \n        grafică");
-        button4.setPrefSize(100,60);
-        button4.setMaxWidth(300);
-        button4.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        button4.setFont(Font.font("Arial", 17));
-        button4.setWrapText(true);
-        button4.setMaxWidth(640);
-        VBox.setMargin(button4,new Insets(-60,150,0,500));
-        root.getChildren().add(button4);
-        button4.setOnMouseExited(e -> button4.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button4.setOnMouseEntered(e -> button4.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-
-        Button button5 =new Button("   5) Aplicații \n în geometrie");
-        button5.setPrefSize(100,60);
-        button5.setMaxWidth(300);
-        button5.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        button5.setFont(Font.font("Arial", 17));
-        button5.setWrapText(true);
-        button5.setMaxWidth(640);
-        VBox.setMargin(button5,new Insets(50,500,0,100));
-        root.getChildren().add(button5);
-        button5.setOnMouseExited(e -> button5.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button5.setOnMouseEntered(e -> button5.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-
-        Button button6 =new Button("6) Testează-ți \n  cunoștințele");
-        button6.setPrefSize(100,60);
-        button6.setMaxWidth(300);
-        button6.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
-        button6.setFont(Font.font("Arial", 17));
-        button6.setWrapText(true);
-        button6.setMaxWidth(640);
-        VBox.setMargin(button6,new Insets(-60,150,0,500));
-        root.getChildren().add(button6);
-        button6.setOnMouseExited(e -> button6.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
-        button6.setOnMouseEntered(e -> button6.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
-        //butoane pagina principala
-
         //probleme rezolvate1
         VBox rootProbRez1 =new VBox();
         Scene probRez1=new Scene(rootProbRez1,900,650);
@@ -363,7 +356,7 @@ public class Main extends Application {
 
         Button backButton9=Buttons.createBackButton();
         rootProbRez3.getChildren().add(backButton9);
-        backButton9.setOnAction(e -> primaryStage.setScene(probRez1));
+        backButton9.setOnAction(e -> primaryStage.setScene(probRez2));
 
         Button homeButton9Rez3 = Buttons.createHomeButton();
         rootProbRez3.getChildren().add(homeButton9Rez3);
@@ -381,7 +374,7 @@ public class Main extends Application {
         Button backButton10Rez4=Buttons.createBackButton();
         rootProbRez4.getChildren().add(backButton10Rez4);
         VBox.setMargin(backButton10Rez4,new Insets(-250,0,0,0));
-        backButton10Rez4.setOnAction(e -> primaryStage.setScene(probRez1));
+        backButton10Rez4.setOnAction(e -> primaryStage.setScene(probRez3));
 
         Button homeButton9Rez4 = Buttons.createHomeButton();
         rootProbRez4.getChildren().add(homeButton9Rez4);
@@ -674,8 +667,6 @@ public class Main extends Application {
         latime = primaryStage.getWidth();
         inaltime = primaryStage.getHeight();
         System.out.println("Dimensiuni inițiale: " + latime + " x " + inaltime + " px");
-//        primaryStage.setWidth(latime);
-//        primaryStage.setHeight(inaltime);
     }
 
     public static void main(String[] args) {

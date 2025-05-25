@@ -3,7 +3,9 @@ package ro.itschool.buttons;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class Buttons {
 
@@ -35,6 +37,19 @@ public class Buttons {
         homeButton.setPrefSize(80,40);
         VBox.setMargin(homeButton,new Insets(-660,0,0,0));
         return homeButton;
+    }
+
+    public static javafx.scene.control.Button createMainButton(String s){
+        Button button=new Button(s);
+        button.setPrefSize(100,60);
+        button.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;");
+        button.setFont(Font.font("Arial", 17));
+        button.setWrapText(true);
+        button.setMaxWidth(350);
+        button.setMinWidth(300);
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-border-color:transparent; -fx-text-fill: white;"));
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #1F7831; -fx-text-fill: white;"));
+        return button;
     }
 
 }
