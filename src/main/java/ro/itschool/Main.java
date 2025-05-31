@@ -20,6 +20,7 @@ import javafx.scene.web.WebView;
 import ro.itschool.buttons.Buttons;
 import ro.itschool.fifth.AplicatiiGeo;
 import ro.itschool.first.*;
+import ro.itschool.sapte.Bibliografie;
 import ro.itschool.second.ProbRez;
 import ro.itschool.sixth.Exam;
 import ro.itschool.sixth.Recap;
@@ -88,12 +89,14 @@ public class Main extends Application {
         HBox row1 = new HBox(40);
         HBox row2 = new HBox(40);
         HBox row3 = new HBox(40);
+        HBox row4 = new HBox(40);
         row1.setAlignment(Pos.CENTER);
         row2.setAlignment(Pos.CENTER);
         row3.setAlignment(Pos.CENTER);
+        row4.setAlignment(Pos.CENTER);
 
         Button button1=Buttons.createMainButton("  1) Ce este un \nnumăr complex?");
-        VBox.setMargin(button1,new Insets(250,500,0,100));
+        VBox.setMargin(button1,new Insets(200,500,0,100));
 
         Button button2=Buttons.createMainButton("2) Exemple rezolvate");
         VBox.setMargin(button2,new Insets(-60,150,0,500));
@@ -110,23 +113,43 @@ public class Main extends Application {
         Button button6 =Buttons.createMainButton("6) Testează-ți \n  cunoștințele");
         VBox.setMargin(button6,new Insets(-60,150,0,500));
 
+        Button button7 =Buttons.createMainButton("7) Bibliografie și \n     realizatori");
+        VBox.setMargin(button6,new Insets(50,750,0,300));
+
         row1.getChildren().addAll(button1, button2);
         row2.getChildren().addAll(button3, button4);
         row3.getChildren().addAll(button5, button6);
+        row4.getChildren().add(button7);
 
-        VBox.setMargin(row1, new Insets(230, 0, 0, 0));
-        VBox.setMargin(row2, new Insets(50, 0, 0, 0));
-        VBox.setMargin(row3, new Insets(50, 0, 0, 0));
+        VBox.setMargin(row1, new Insets(210, 0, 0, 0));
+        VBox.setMargin(row2, new Insets(40, 0, 0, 0));
+        VBox.setMargin(row3, new Insets(40, 0, 0, 0));
+        VBox.setMargin(row4, new Insets(10, 0, 0, 0));
 
-        layoutWrapper.getChildren().addAll(header, row1, row2, row3);
+        layoutWrapper.getChildren().addAll(header, row1, row2, row3, row4);
         StackPane root = new StackPane(layoutWrapper);
         root.setAlignment(Pos.TOP_CENTER);
         Scene scene = new Scene(root, 900, 700);
         //butoane pagina principala
 
+        //bibliografie
+        VBox rootBibliografie = new VBox();
+        Scene sceneBibliografie=new Scene(rootBibliografie,900, 700);
+        button7.setOnAction(e -> primaryStage.setScene(sceneBibliografie));
+
+        WebView webViewBibliografie= Bibliografie.createWebViewBibliografie();
+        rootBibliografie.getChildren().add(webViewBibliografie);
+
+        Button homeButtonBibliografie=Buttons.createHomeButton();
+        VBox.setMargin(homeButtonBibliografie,new Insets(-1150,0,0,0));
+        rootBibliografie.getChildren().add(homeButtonBibliografie);
+        homeButtonBibliografie.setOnAction(e -> primaryStage.setScene(scene));
+
+
+
         //Def (introducere)
         VBox root2 = new VBox();
-        Scene sceneInfo=new Scene(root2,primaryStage.getWidth(), primaryStage.getHeight());
+        Scene sceneInfo=new Scene(root2,900, 650);
 
         WebView webViewDef= Def.createWebViewDef();
         root2.getChildren().add(webViewDef);

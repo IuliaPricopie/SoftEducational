@@ -69,7 +69,7 @@ public class FormaTrig2 {
                         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                             <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                               <h1 style="margin: 0; display: flex; align-items: center; gap: 10px;">
-                              Proprietăți ale Formei Trigonometrice
+                              Operații cu numere complexe sub forma trigonometrică
                               <dotlottie-player
                               src="https://lottie.host/6dea93cd-c8e3-4ac2-a14b-d5017787f6e8/06WhqxGGCS.lottie"
                               background="transparent"
@@ -94,7 +94,7 @@ public class FormaTrig2 {
                                     <p class="section-title">✨ Împărțirea</p>
                                     <p>
                                         \\[
-                                        \\frac{|z_1|}{|z_2|} =\s
+                                        \\frac{z_1}{z_2} =\s
                                         \\frac{|z_1| ( \\cos \\theta_1 + i \\sin \\theta_1 )}{ |z_2| ( \\cos \\theta_2 + i \\sin \\theta_2 )} = \\frac{|z_1|}{|z_2|} [\\cos( \\theta_1 - \\theta_2) + i \\sin(\\theta_1 - \\theta_2)]
                                         \\]
                                     </p>
